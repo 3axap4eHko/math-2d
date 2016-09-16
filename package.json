@@ -6,7 +6,7 @@
   "scripts": {
     "test": "gulp && jasmine",
     "build": "gulp",
-    "patch-release": "npm run test && npm version patch && git push && git push --tags && npm run build && cd build && npm publish"
+    "patch-release": "npm version patch && git push && git push --tags && npm run build && cd build && npm publish"
   },
   "keywords": [],
   "author": "3axap4eHko",
