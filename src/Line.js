@@ -2,7 +2,6 @@
 
 import Point from './Point';
 import LineEquation from './LineEquation';
-import {sqr, sqrt} from './utils';
 
 const PointA = Symbol('pointA');
 const PointB = Symbol('pointB');
@@ -12,47 +11,18 @@ const Length = Symbol('length');
 const Equation = Symbol('equation');
 
 export default class Line {
-    static areEqual(lineA, lineB, exact = false) {
-        if (exact) {
-            return Point.areEqual(lineA.pointA, lineB.pointA) && Point.areEqual(lineA.pointB, lineB.pointB) ||
-                Point.areEqual(lineA.pointA, lineB.pointB) && Point.areEqual(lineA.pointB, lineB.pointA);
-        }
-        return LineEquation.areSame(lineA.equation, lineB.equation);
+    static areEqual(lineA, lineB) {
+        return Point.areEqual(lineA.pointA, lineB.pointA) && Point.areEqual(lineA.pointB, lineB.pointB) ||
+            Point.areEqual(lineA.pointA, lineB.pointB) && Point.areEqual(lineA.pointB, lineB.pointA);
     }
-    static isAlign(line, point, exact = false) {
+    static isAlign(line, point) {
         const isAlign = LineEquation.isAlign(line.equation, point);
-        return isAlign &&
-            (!exact || Point.isBetween(point, line.pointA, line.pointB) )
+        return isAlign && Point.isBetween(point, line.pointA, line.pointB);
     }
-    static areIntersect(lineA, lineB, exact = false) {
-        const intersectPoint = Line.getIntersect(lineA, lineB);
+    static areIntersect(lineA, lineB) {
+        const intersectPoint = LineEquation.getIntersect(lineA.equation, lineB.equation);
 
-        return Line.isAlign(lineB, intersectPoint, exact);
-    }
-    static isPerpendicular(lineA, lineB, exact = false) {
-        const isPerpendicular = Line.isPerpendicular(lineA, lineB);
-
-        return isPerpendicular && (!exact || )
-    }
-    static getPointsAtDistance(line, point, distance) {
-        const {equation, center} = line;
-        const {A:Ap, B:Bp, C:Cp} = LineEquation.getPerpendicular(equation, center);
-        const {C} = equation;
-        const x1 = ( Bp*C - Ap*Cp + distance * Ap * sqrt( sqr(Ap) + sqr(Bp) )  ) / (Ap - sqr(Bp));
-        const y1 = equation.calcY(x1);
-        const x2 = ( Bp*C - Ap*Cp - distance * Ap * sqrt( sqr(Ap) + sqr(Bp) )  ) / (Ap - sqr(Bp));
-        const y2 = equation.calcY(x2);
-
-        return [
-            new Point(x1, y1),
-            new Point(x2, y2),
-        ]
-    }
-    static getPerpendicular(line) {
-        const {length, equation, pointA, pointB, center} = line;
-        const perpendicularEquation = LineEquation.getPerpendicular(equation, center);
-
-        return new Line(pointA, pointB);
+        return Line.isAlign(lineA, intersectPoint) && Line.isAlign(lineB, intersectPoint);
     }
     constructor(pointA, pointB) {
         this[PointA] = pointA;

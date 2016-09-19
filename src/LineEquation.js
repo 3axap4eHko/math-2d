@@ -24,11 +24,8 @@ export default class LineEquation {
         return lineEquationA.A/lineEquationB.A === lineEquationA.B/lineEquationB.B &&
             lineEquationA.A/lineEquationB.A === lineEquationA.C/lineEquationB.C;
     }
-    static isParallel(lineEquationA, lineEquationB) {
+    static areParallel(lineEquationA, lineEquationB) {
         return Math.abs(lineEquationA.A * lineEquationB.B - lineEquationA.B * lineEquationB.A) <= Number.EPSILON;
-    }
-    static isPerpendicular(lineEquationA, lineEquationB) {
-        return Math.abs(lineEquationA.A * lineEquationB.A + lineEquationA.B * lineEquationB.B) <= Number.EPSILON;
     }
     static getPerpendicular(lineEquation, point) {
         const A = lineEquation.B;
@@ -37,17 +34,31 @@ export default class LineEquation {
 
         return new LineEquation(A, B, C);
     }
-    static getIntersect(lineA, lineB) {
-        const {A:A1, B:B1, C:C1} = lineA.equation;
-        const {A:A2, B:B2, C:C2} = lineB.equation;
+    static arePerpendicular(lineEquationA, lineEquationB) {
+        return Math.abs(lineEquationA.A * lineEquationB.A + lineEquationA.B * lineEquationB.B) <= Number.EPSILON;
+    }
+    static getIntersect(lineEquationA, lineEquationB) {
+        const {A:A1, B:B1, C:C1} = lineEquationA;
+        const {A:A2, B:B2, C:C2} = lineEquationB;
         const x = (B2*C1/B1 + C2) / ( B2*A1/B1 - A2);
-        const y = lineA.calcY(x);
 
-        return Point(x, y);
+        return lineEquationA.calcY(x);
     }
     static isAlign(lineEquation, point) {
         return lineEquation.calc(point) === 0;
     }
+    static getPointsAtDistance(lineEquation, point, distance) {
+        const {A:Ap, B:Bp, C:Cp} = LineEquation.getPerpendicular(lineEquation, point);
+        const {A, B, C} = lineEquation;
+        const x1 = ( Bp*C - B*Cp + distance * B * sqrt( sqr(Ap) + sqr(Bp) )  ) / (B * Ap - Bp * A);
+        const x2 = ( Bp*C - B*Cp - distance * B * sqrt( sqr(Ap) + sqr(Bp) )  ) / (B * Ap - Bp * A);
+
+        return [
+            lineEquation.calcY(x1),
+            lineEquation.calcY(x2),
+        ]
+    }
+
     static createFromPoints(pointA, pointB) {
         const A = pointB.y - pointA.y;
         const B = pointA.x - pointB.x;
@@ -77,9 +88,9 @@ export default class LineEquation {
         return this[_A] * point.x + this[_B] * point.y + this[_C];
     }
     calcX(y) {
-        return -(this[_B] * y + this[_C]) / this[_A];
+        return new Point(-(this[_B] * y + this[_C]) / this[_A], y);
     }
     calcY(x) {
-        return -(this[_A] * x + this[_C]) / this[_B];
+        return new Point(x, -(this[_A] * x + this[_C]) / this[_B]);
     }
 }

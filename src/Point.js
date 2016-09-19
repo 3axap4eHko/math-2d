@@ -3,8 +3,8 @@
 import euclideanDistance from './distance/euclidean';
 import {isBetween} from './utils';
 
-const X = Symbol('x');
-const Y = Symbol('y');
+const _X = Symbol('x');
+const _Y = Symbol('y');
 
 export default class Point {
     static getDistance(pointA, pointB, distance = euclideanDistance) {
@@ -34,13 +34,19 @@ export default class Point {
         return Point.mult( Point.add(pointA, pointB), 0.5 );
     }
     constructor(x, y) {
-        this[X] = x;
-        this[Y] = y;
+        this[_X] = x;
+        this[_Y] = y;
     }
     get x() {
-        return this[X];
+        return this[_X];
     }
     get y() {
-        return this[Y];
+        return this[_Y];
+    }
+    toObject() {
+        return {x: this[_X], y: this[_Y]};
+    }
+    toString() {
+        return JSON.stringify(this.toObject());
     }
 }
