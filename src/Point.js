@@ -11,10 +11,27 @@ export default class Point {
         return distance(pointA.x, pointA.y, pointB.x, pointB.y);
     }
     static areEqual(pointA, pointB) {
-        return pointA.x === pointB.x && pointA.y === pointB.y;
+        return Math.abs(pointA.x - pointB.x) <= Number.EPSILON && Math.abs(pointA.y - pointB.y) <= Number.EPSILON;
     }
-    static isBetween(pointA, pointB, pointC) {
-        return isBetween(pointA.x, pointB.x, pointC.x) && isBetween(pointA.y, pointB.y, pointC.y)
+    static isBetween(point, pointA, pointB) {
+        return isBetween(point.x, pointA.x, pointB.x) && isBetween(point.y, pointA.y, pointB.y)
+    }
+    static invert(point) {
+        return new Point(-point.x, -point.y);
+    }
+    static add(pointA, pointB) {
+        return new Point(pointA.x + pointB.x, pointA.y + pointB.y);
+    }
+    static mult(pointA, value) {
+        return new Point(pointA.x * value, pointA.y  * value);
+    }
+    static rotate(point, center, angle) {
+        const x = center.x + (point.x - center.x) * Math.cos(angle) - (point.y - center.y) * Math.sin(angle);
+        const y = center.y + (point.y - center.y) * Math.cos(angle) + (point.x - center.x) * Math.sin(angle);
+        return new Point(x, y);
+    }
+    static getMedium(pointA, pointB) {
+        return Point.mult( Point.add(pointA, pointB), 0.5 );
     }
     constructor(x, y) {
         this[X] = x;
@@ -26,5 +43,4 @@ export default class Point {
     get y() {
         return this[Y];
     }
-
 }

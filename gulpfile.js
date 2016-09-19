@@ -10,7 +10,7 @@ const Gulp = require('gulp');
 const Babel = require('gulp-babel');
 const Sourcemaps = require('gulp-sourcemaps');
 const ESLlint = require('gulp-eslint');
-const Uglify = require('gulp-uglify');
+//const Uglify = require('gulp-uglify');
 const Through = require('through2');
 const replacePathExpr = /\\|\//g;
 const replaceNameExpr = /\\|\/|\-|\.|_/g;
@@ -43,14 +43,14 @@ Gulp.task('js-compile', ['clean'], function() {
         .pipe(ESLlint.failAfterError())
         .pipe(Sourcemaps.init())
         .pipe(Babel())
-        .pipe(Uglify())
+//        .pipe(Uglify())
         .pipe(Sourcemaps.write('.'))
         .pipe(Gulp.dest(buildDir));
 });
 
-Gulp.task('manifest-copy', ['clean'], function() {
-    return Gulp.src(['./package.json'])
+Gulp.task('files-copy', ['clean'], function() {
+    return Gulp.src(['./package.json', './README.md'])
         .pipe(Gulp.dest(buildDir));
 });
 
-Gulp.task('default', ['clean', 'export', 'js-compile', 'manifest-copy']);
+Gulp.task('default', ['clean', 'export', 'js-compile', 'files-copy']);

@@ -1,0 +1,55 @@
+'use strict';
+
+import Point from '../src/Point';
+import Line from '../src/Line';
+
+describe('Line test suite', () => {
+
+    it('Line constructor', () => {
+        const pointA = new Point(0,0);
+        const pointB = new Point(1,1);
+        const line = new Line(pointA, pointB);
+
+        expect(line.pointA).toEqual(pointA);
+        expect(line.pointB).toEqual(pointB);
+        expect(line.length).toEqual(Point.getDistance(pointA, pointB));
+    });
+
+    it('Line areEqual', () => {
+        const lineA = new Line(new Point(0,0), new Point(1, 1));
+        const lineB = new Line(new Point(0.5,0.5), new Point(1, 1));
+        const lineC = new Line(new Point(0,0), new Point(1, 0));
+
+        expect(Line.areEqual(lineA, lineB)).toBeTruthy();
+        expect(Line.areEqual(lineA, lineB, true)).toBeFalsy();
+
+        expect(Line.areEqual(lineB, lineC)).toBeFalsy();
+        expect(Line.areEqual(lineB, lineC, true)).toBeFalsy();
+
+        expect(Line.areEqual(lineA, lineA)).toBeTruthy();
+        expect(Line.areEqual(lineA, lineA, true)).toBeTruthy();
+    });
+
+    it('Line areIntersect', () => {
+        const lineA = new Line(new Point(0,0), new Point(1, 1));
+        const lineB = new Line(new Point(1,0), new Point(0, 1));
+        const lineC = new Line(new Point(2,0), new Point(3, 1));
+
+        expect(Line.areIntersect(lineA, lineB)).toBeTruthy();
+        expect(Line.areIntersect(lineA, lineB, true)).toBeTruthy();
+
+        expect(Line.areIntersect(lineB, lineC)).toBeTruthy();
+        expect(Line.areIntersect(lineB, lineC, true)).toBeFalsy();
+
+        expect(Line.areIntersect(lineA, lineC)).toBeFalsy();
+        expect(Line.areIntersect(lineA, lineC, true)).toBeFalsy();
+    });
+
+    it('Line getPerpendicular', () => {
+        const lineA = new Line(new Point(0,0), new Point(2, 2));
+        const lineB = Line.getPerpendicular(lineA);
+
+        expect(Line.areIntersect(lineA, lineB)).toBeTruthy();
+        expect(Line.areIntersect(lineA, lineB, true)).toBeTruthy();
+    });
+});
