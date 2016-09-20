@@ -1,6 +1,8 @@
 'use strict';
 
-import manhattan from '../distance/manhattan'
+import {compareTake} from 'yyf-core/iterate';
+import manhattan from '../distance/manhattan';
+import {pointToId} from '../utils';
 
 const directions = [
     {x:  1, y:  0},
@@ -13,25 +15,13 @@ const directions = [
     {x:  1, y: -1}
 ];
 
-const pointToId = (x, y, width) => y * width + x;
-
-const compareTake = (target, callback) => {
-    var pair = compare(target, callback);
-    if (Array.isArray(target)) {
-        target.splice(pair.key, 1);
-    } else {
-        delete target[pair.key];
-    }
-    return pair;
-};
-
 export default function AStar(startPoint, finishPoint, width, height, weightCallback, heuristicCallback, maxIterationCount, onWhiteList) {
     heuristicCallback = heuristicCallback || function(x, y) {
-            return manhattan(x - finishPoint.x, y - finishPoint.y)*distance;
+            return manhattan(x, finishPoint.x, y, finishPoint.y)*distance;
         };
     maxIterationCount = maxIterationCount || width*height;
     var iteration = 1,
-        distance = manhattan(startPoint.x - finishPoint.x, startPoint.y - finishPoint.y) + 1,
+        distance = manhattan(startPoint.x, finishPoint.x, startPoint.y, finishPoint.y) + 1,
         currentPoint,
         visitedList = {},
         blackList = {},

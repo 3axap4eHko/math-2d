@@ -21,7 +21,7 @@ const vertexOppositeLine = {
     B: LineC,
     C: LineA,
 };
-
+/*
 const vertexAlignLines = {
     A: [LineC, LineA],
     B: [LineA, LineB],
@@ -45,7 +45,7 @@ const lineAlignVertex = {
     b: [PointB, PointC],
     c: [PointC, PointA],
 };
-
+*/
 function getVertex(triangle, vertex) {
     if (vertex in vertexes) {
         return triangle[vertexes[vertex]];
