@@ -39,6 +39,9 @@ export default class Point {
     static getMedium(pointA, pointB) {
         return Point.mult( Point.add(pointA, pointB), 0.5 );
     }
+    static getId(point, width) {
+        return point.x * width + point.y;
+    }
     constructor(x, y) {
         this[_X] = x;
         this[_Y] = y;
