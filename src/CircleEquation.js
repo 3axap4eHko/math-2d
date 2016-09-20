@@ -41,8 +41,10 @@ export default class CircleEquation {
         return result;
     }
     static getSegment(circleEquation, line) {
+        const height = Line.getPerpendicular(line.equation, circleEquation.center);
+        const d = sqrt( sqr(circleEquation.radius) - sqr(height.length) );
 
-        throw Error('Not implemented')
+        return LineEquation.getPointsAtDistance(line.equation, height.pointB, d);
     }
     constructor(center, radius) {
         this[_Center] = center;

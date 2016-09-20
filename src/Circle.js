@@ -1,6 +1,5 @@
 'use strict';
 
-import Point from './Point';
 import CircleEquation from './CircleEquation';
 
 const _Center = Symbol('center');
@@ -9,19 +8,19 @@ const _Equation = Symbol('equation');
 
 export default class Circle {
     static getDistance(circleA, point) {
-        return Point.getDistance(circleA.center, point);
+        return CircleEquation.getDistance(circleA.equation, point);
     }
     static isAlign(circle, point) {
-        return Point.getDistance(circle.center, point) <= circle.radius;
+        return CircleEquation.isAlign(circle.equation, point);
     }
     static areIntersect(circleA, circleB) {
-        return Circle.getDistance(circleA, circleB.center) < circleA.radius + circleB.radius;
+        return CircleEquation.areIntersect(circleA.equation, circleB.equation);
     }
-    static getIntersect() {
-        throw Error('Not implemented')
+    static getIntersect(circleA, circleB) {
+        return CircleEquation.getIntersect(circleA.equation, circleB.equation);
     }
-    static getSegment() {
-        throw Error('Not implemented')
+    static getSegment(circle, line) {
+        return CircleEquation.getSegment(circle.equation, line);
     }
     constructor(center, radius) {
         this[_Center] = center;
