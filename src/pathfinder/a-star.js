@@ -82,4 +82,4 @@ export default function AStar(startPoint, finishPoint, width, height, weightCall
         }while(currentPoint.p!=-1);
     }
     return result;
-};
+}

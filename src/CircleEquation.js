@@ -16,7 +16,7 @@ export default class CircleEquation {
     static areIntersect(circleEquationA, circleEquationB) {
         return CircleEquation.getDistance(circleEquationA, circleEquationB.center) < circleEquationA.radius + circleEquationB.radius;
     }
-    static getIntersect(circleEquationA, circleEquationB) {
+    static getIntersect() {
         // (x-x1)^2 + (y-y1)^2 = r1^2
         // x^2 - 2*x*x1 + x1^2 + y^2 - 2*y*y1 + y1^2 = r1^2
         // x^2 - 2*x*x2 + x2^2 + y^2 - 2*y*y2 + y2^2 = r2^2
@@ -24,7 +24,7 @@ export default class CircleEquation {
         // -4*x*(x1-x2) - 4*y*(y1-y2) + x1^2 - x2^2 + y1^2 - y2^2 = r1^2 - r2^2
         throw Error('Not implemented')
     }
-    static getSegment(circleA, line) {
+    static getSegment() {
         throw Error('Not implemented')
     }
     constructor(center, radius) {

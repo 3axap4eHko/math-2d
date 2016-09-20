@@ -17,10 +17,10 @@ export default class Circle {
     static areIntersect(circleA, circleB) {
         return Circle.getDistance(circleA, circleB.center) < circleA.radius + circleB.radius;
     }
-    static getIntersect(circleA, circleB) {
+    static getIntersect() {
         throw Error('Not implemented')
     }
-    static getSegment(circleA, line) {
+    static getSegment() {
         throw Error('Not implemented')
     }
     constructor(center, radius) {
