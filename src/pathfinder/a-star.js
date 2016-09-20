@@ -1,8 +1,6 @@
 'use strict';
 
-import {compareTake} from '../../iterate'
 import manhattan from '../distance/manhattan'
-import {point2Id} from '../utils'
 
 const directions = [
     {x:  1, y:  0},
@@ -14,6 +12,18 @@ const directions = [
     {x: -1, y: -1},
     {x:  1, y: -1}
 ];
+
+const pointToId = (x, y, width) => y * width + x;
+
+const compareTake = (target, callback) => {
+    var pair = compare(target, callback);
+    if (Array.isArray(target)) {
+        target.splice(pair.key, 1);
+    } else {
+        delete target[pair.key];
+    }
+    return pair;
+};
 
 export default function AStar(startPoint, finishPoint, width, height, weightCallback, heuristicCallback, maxIterationCount, onWhiteList) {
     heuristicCallback = heuristicCallback || function(x, y) {
@@ -32,7 +42,7 @@ export default function AStar(startPoint, finishPoint, width, height, weightCall
                 g = w + pg,
                 m = pm + 1;
             return {
-                id: id || point2Id(x, y),
+                id: id || pointToId(x, y, width),
                 x: x,
                 y: y,
                 p: pid,
@@ -59,8 +69,8 @@ export default function AStar(startPoint, finishPoint, width, height, weightCall
         },
         result = [];
 
-    startPoint = getPoint(point2Id(startPoint.x, startPoint.y), startPoint.x, startPoint.y,-1,0,0);
-    finishPoint = getPoint(point2Id(finishPoint.x, finishPoint.y), finishPoint.x, finishPoint.y,-1,0,0);
+    startPoint = getPoint(pointToId(startPoint.x, startPoint.y, width), startPoint.x, startPoint.y,-1,0,0);
+    finishPoint = getPoint(pointToId(finishPoint.x, finishPoint.y, width), finishPoint.x, finishPoint.y,-1,0,0);
     visitedList[startPoint.id] = whiteList[startPoint.id] = startPoint;
 
     while (iteration++<maxIterationCount && Object.keys(whiteList).length && (currentPoint = compareTake(whiteList, whiteListReduce).value).id != finishPoint.id) {
