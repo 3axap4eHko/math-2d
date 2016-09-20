@@ -11,6 +11,12 @@ const Length = Symbol('length');
 const Equation = Symbol('equation');
 
 export default class Line {
+    static getDX(line) {
+        return Point.getDX(line.pointA, line.pointB);
+    }
+    static getDY(line) {
+        return Point.getDY(line.pointA, line.pointB);
+    }
     static areEqual(lineA, lineB) {
         return Point.areEqual(lineA.pointA, lineB.pointA) && Point.areEqual(lineA.pointB, lineB.pointB) ||
             Point.areEqual(lineA.pointA, lineB.pointB) && Point.areEqual(lineA.pointB, lineB.pointA);
@@ -23,6 +29,12 @@ export default class Line {
         const intersectPoint = LineEquation.getIntersect(lineA.equation, lineB.equation);
 
         return Line.isAlign(lineA, intersectPoint) && Line.isAlign(lineB, intersectPoint);
+    }
+    static getPerpendicular(line, point) {
+        const lineEquation = LineEquation.getPerpendicular(line.equation, point);
+        const intersection = LineEquation.getIntersect(line.equation, lineEquation);
+
+        return new Line(point, intersection);
     }
     constructor(pointA, pointB) {
         this[PointA] = pointA;

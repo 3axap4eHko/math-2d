@@ -1,6 +1,8 @@
 'use strict';
 
 import Point from './Point';
+import Line from './Line';
+import LineEquation from './LineEquation';
 import {sqr, sqrt} from './utils';
 
 const _Center = Symbol('Symbol');
@@ -16,15 +18,30 @@ export default class CircleEquation {
     static areIntersect(circleEquationA, circleEquationB) {
         return CircleEquation.getDistance(circleEquationA, circleEquationB.center) < circleEquationA.radius + circleEquationB.radius;
     }
-    static getIntersect() {
-        // (x-x1)^2 + (y-y1)^2 = r1^2
-        // x^2 - 2*x*x1 + x1^2 + y^2 - 2*y*y1 + y1^2 = r1^2
-        // x^2 - 2*x*x2 + x2^2 + y^2 - 2*y*y2 + y2^2 = r2^2
-        // -4*x*(x1-x2) + x1^2 - x2^2 - 4*y*(y1-y2) + y1^2 - y2^2 = r1^2 - r2^2
-        // -4*x*(x1-x2) - 4*y*(y1-y2) + x1^2 - x2^2 + y1^2 - y2^2 = r1^2 - r2^2
-        throw Error('Not implemented')
+    static getIntersect(circleEquationA, circleEquationB) {
+        const result = [];
+        const line = new Line(circleEquationA.center, circleEquationB.center);
+        const distance = circleEquationA.radius + circleEquationB.radius;
+        if ( line.length > 0 && distance >= line.length ) {
+            const a = (sqr(circleEquationA.radius) - sqr(circleEquationA.radius) + sqr(line.length)) / (2*line.length);
+            const height = sqrt(sqr(circleEquationA.radius)-sqr(a));
+            const [point] = LineEquation
+                .getPointsAtDistance(line.equation, line.pointA, a)
+                .filter( p => Line.isAlign(line, p) );
+
+            const x1 = point.x + height * Line.getDY(line)/line.length;
+            const y1 = point.y + height * Line.getDX(line)/line.length;
+            result.push( new Point(x1, y1) );
+            if (distance !== line.length) {
+                const x2 = point.x - height * Line.getDY(line)/line.length;
+                const y2 = point.y - height * Line.getDX(line)/line.length;
+                result.push( new Point(x2, y2) );
+            }
+        }
+        return result;
     }
-    static getSegment() {
+    static getSegment(circleEquation, line) {
+
         throw Error('Not implemented')
     }
     constructor(center, radius) {

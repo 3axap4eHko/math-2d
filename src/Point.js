@@ -7,6 +7,12 @@ const _X = Symbol('x');
 const _Y = Symbol('y');
 
 export default class Point {
+    static getDX(pointA, pointB) {
+        return pointB.x - pointA.x;
+    }
+    static getDY(pointA, pointB) {
+        return pointB.y - pointA.y;
+    }
     static getDistance(pointA, pointB, distance = euclideanDistance) {
         return distance(pointA.x, pointA.y, pointB.x, pointB.y);
     }
