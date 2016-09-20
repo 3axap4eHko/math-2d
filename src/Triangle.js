@@ -1,7 +1,7 @@
 'use strict';
 
 import Line from './Line';
-import CircleEquation from './CircleEquation';
+import Circle from './Circle';
 
 const PointA = Symbol('pointA');
 const PointB = Symbol('pointB');
@@ -67,9 +67,9 @@ export default class Triangle {
         return Line.getPerpendicular(line, point);
     }
     static createFromLineAndLength(line, lengthA, lengthB) {
-        const circleEquationA = new CircleEquation(line.pointA, lengthA);
-        const circleEquationB = new CircleEquation(line.pointB, lengthB);
-        const points = CircleEquation.getIntersect(circleEquationA, circleEquationB);
+        const circleA = new Circle(line.pointA, lengthA);
+        const circleB = new Circle(line.pointB, lengthB);
+        const points = Circle.getIntersect(circleA, circleB);
         return points.map( point => new Triangle(line.pointA, line.pointA, point));
     }
     constructor(pointA, pointB, pointC) {

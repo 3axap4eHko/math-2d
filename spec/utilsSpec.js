@@ -1,6 +1,13 @@
 'use strict';
 
-import { sqr, sqrt, sqredDiff, sqrtedSum, isBetween } from '../src/utils';
+import {
+    sqr,
+    sqrt,
+    sqredDiff,
+    sqrtedSum,
+    isBetween,
+    pointToId
+} from '../src/utils';
 
 describe( 'utils test suite', () => {
 
@@ -34,6 +41,12 @@ describe( 'utils test suite', () => {
         expect( isBetween( b, a, c ) ).toBeTruthy();
         expect( isBetween( a, b, c ) ).toBeFalsy();
         expect( isBetween( c, a, b ) ).toBeFalsy();
+    } );
+
+    it( 'pointToId', () => {
+        expect( pointToId( 0,0,100 ) ).toEqual(0);
+        expect( pointToId( 0,1,100 ) ).toEqual(100);
+        expect( pointToId( 50,50,100 ) ).toEqual(5050);
     } );
 
 } );

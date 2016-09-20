@@ -39,7 +39,7 @@ describe('LineEquation test suite', () => {
         expect(LineEquation.getAngle(eqC, eqA)).toEqual(Math.atan(b/a));
         expect(LineEquation.getAngle(eqC, eqB)).toEqual(-Math.atan(a/b));
     });
-    it('LineEquation getAngle', () => {
+    it('LineEquation areSame', () => {
         const eqA = LineEquation.createFromPoints(pointA, pointB);
         const x = 6;
         const pointD = eqA.calcY(x);

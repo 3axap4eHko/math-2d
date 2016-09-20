@@ -28,7 +28,7 @@ describe('Line test suite', () => {
         const lineA = new Line(new Point(0,0), new Point(2, 2));
 
         expect(Line.isAlign(lineA, new Point(1,1))).toBeTruthy();
-        expect(Line.isAlign(lineA, new Point(2,2))).toBeFalsy();
+        expect(Line.isAlign(lineA, new Point(3,3))).toBeFalsy();
     });
 
     it('Line areIntersect', () => {
