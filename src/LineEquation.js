@@ -52,9 +52,12 @@ export default class LineEquation {
         const {A, B, C} = lineEquation;
         const x1 = ( Bp*C - B*Cp + distance * B * sqrt( sqr(Ap) + sqr(Bp) )  ) / (B * Ap - Bp * A);
         const x2 = ( Bp*C - B*Cp - distance * B * sqrt( sqr(Ap) + sqr(Bp) )  ) / (B * Ap - Bp * A);
+        const y1 = point.y + sqrt( sqr(distance) - sqr(point.x - x1) );
+        const y2 = point.y - sqrt( sqr(distance) - sqr(point.x - x2) );
+
         return [
-            lineEquation.calcY(x1),
-            lineEquation.calcY(x2),
+            new Point(x1, y1),
+            new Point(x2, y2)
         ]
     }
 

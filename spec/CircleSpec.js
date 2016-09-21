@@ -5,9 +5,10 @@ import Line from '../src/Line';
 import Circle from '../src/Circle';
 
 const pointA = new Point(0,0);
-const pointB = new Point(0,1);
+const pointB = new Point(1,0);
 const pointC = new Point(1,1);
 const pointD = new Point(2,2);
+const pointF = new Point(2,0);
 const radius1 = 1;
 
 describe('Circle test suite', () => {
@@ -38,11 +39,17 @@ describe('Circle test suite', () => {
         expect(Circle.areIntersect(circleA, circleC)).toBeFalsy();
     });
 
-    it('Circle areIntersect', () => {
+    it('Circle getIntersect', () => {
         const circleA = new Circle(pointA, radius1);
         const circleB = new Circle(pointB, radius1);
-        const intersects = Circle.getIntersect(circleA, circleB);
-        console.log(intersects.toString());
+        const circleC = new Circle(pointF, radius1);
+
+        const intersectsA = Circle.getIntersect(circleA, circleB);
+        expect(intersectsA.length).toEqual(2);
+        intersectsA.forEach( point => expect(point.x).toEqual(radius1/2));
+
+        const intersectsB = Circle.getIntersect(circleA, circleC);
+        expect(intersectsB.length).toEqual(1);
     });
 
 });

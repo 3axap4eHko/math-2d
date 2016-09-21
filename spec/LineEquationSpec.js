@@ -6,6 +6,8 @@ import LineEquation from '../src/LineEquation';
 const pointA = new Point(3,0);
 const pointB = new Point(0,4);
 const pointC = new Point(0,0);
+const pointD = new Point(3,4);
+const pointE = new Point(-3,4);
 
 describe('LineEquation test suite', () => {
 
@@ -55,6 +57,15 @@ describe('LineEquation test suite', () => {
 
         expect(LineEquation.areParallel(eqA, eqB)).toBeTruthy()
     });
+    it('LineEquation getPerpendicular', () => {
+        const eqA = LineEquation.createFromPoints(pointD, pointC);
+        const eqB = LineEquation.createFromPoints(pointD, pointC);
+        const eqAp = LineEquation.getPerpendicular(eqA, pointC);
+        const eqBp = LineEquation.getPerpendicular(eqB, pointC);
+
+        expect(eqAp.calc(pointC)).toEqual(0);
+        expect(eqBp.calc(pointC)).toEqual(0);
+    });
     it('LineEquation arePerpendicular', () => {
         const eqA = LineEquation.createFromPoints(pointA, pointB);
         const eqB = LineEquation.getPerpendicular(eqA, pointC);
@@ -75,13 +86,20 @@ describe('LineEquation test suite', () => {
         expect(LineEquation.isAlign(eqA, pointD)).toBeTruthy()
     });
     it('LineEquation getPointsAtDistance', () => {
-        const eq = LineEquation.createFromPoints(pointC, pointA);
         const distance = 1;
-        const points = LineEquation.getPointsAtDistance(eq, pointA, 1);
-        expect(points.length).toEqual(2);
-        points.forEach( point => {
-            expect(eq.calc(point)).toEqual(0);
+        const eqA = LineEquation.createFromPoints(pointC, pointA);
+        const pointsA = LineEquation.getPointsAtDistance(eqA, pointA, 1);
+        expect(pointsA.length).toEqual(2);
+        pointsA.forEach( point => {
+            expect(eqA.calc(point)).toEqual(0);
             expect(Point.getDistance(pointA, point)).toEqual(distance);
+        });
+        const eqB = LineEquation.createFromPoints(pointE, pointC);
+        const pointsB = LineEquation.getPointsAtDistance(eqB, pointC, 1);
+        expect(pointsB.length).toEqual(2);
+        pointsB.forEach( point => {
+            expect(eqB.calc(point)).toEqual(0);
+            expect(Point.getDistance(pointC, point)).toEqual(distance);
         });
     });
 });

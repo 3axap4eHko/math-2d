@@ -27,7 +27,7 @@ export default class Circle {
             const height = sqrt(sqr(circleA.radius)-sqr(a));
             const points = LineEquation
                 .getPointsAtDistance(line.equation, line.pointA, a);
-            console.log();
+
             const [point] = points.filter( p => Line.isAlign(line, p) );
             const x1 = point.x + height * Line.getDY(line)/line.length;
             const y1 = point.y + height * Line.getDX(line)/line.length;
