@@ -1,25 +1,25 @@
 'use strict';
 
-import Line from './Line';
+import LineSegment from './LineSegment';
 import Circle from './Circle';
 
-const PointA = Symbol('pointA');
-const PointB = Symbol('pointB');
-const PointC = Symbol('pointC');
-const LineA  = Symbol('lineA');
-const LineB  = Symbol('lineB');
-const LineC  = Symbol('lineC');
+const _PointA = Symbol('pointA');
+const _PointB = Symbol('pointB');
+const _PointC = Symbol('pointC');
+const _LineA  = Symbol('lineA');
+const _LineB  = Symbol('lineB');
+const _LineC  = Symbol('lineC');
 
 const vertexes = {
-    A: PointA,
-    B: PointB,
-    C: PointC,
+    A: _PointA,
+    B: _PointB,
+    C: _PointC,
 };
 
 const vertexOppositeLine = {
-    A: LineB,
-    B: LineC,
-    C: LineA,
+    A: _LineB,
+    B: _LineC,
+    C: _LineA,
 };
 /*
 const vertexAlignLines = {
@@ -64,7 +64,7 @@ export default class Triangle {
     static getHeight(triangle, vertex) {
         const point = getVertex(triangle, vertex);
         const line = getVertexOppositeLine(triangle, vertex);
-        return Line.getPerpendicular(line, point);
+        return LineSegment.getPerpendicular(line, point);
     }
     static createFromLineAndLength(line, lengthA, lengthB) {
         const circleA = new Circle(line.pointA, lengthA);
@@ -73,30 +73,30 @@ export default class Triangle {
         return points.map( point => new Triangle(line.pointA, line.pointA, point));
     }
     constructor(pointA, pointB, pointC) {
-        this[PointA] = pointA;
-        this[PointB] = pointB;
-        this[PointC] = pointC;
-        this[LineA]  = new Line(pointA, pointB);
-        this[LineB]  = new Line(pointB, pointC);
-        this[LineC]  = new Line(pointC, pointA);
+        this[_PointA] = pointA;
+        this[_PointB] = pointB;
+        this[_PointC] = pointC;
+        this[_LineA]  = new LineSegment(pointA, pointB);
+        this[_LineB]  = new LineSegment(pointB, pointC);
+        this[_LineC]  = new LineSegment(pointC, pointA);
     }
     get pointA() {
-        return this[PointA];
+        return this[_PointA];
     }
     get pointB() {
-        return this[PointB];
+        return this[_PointB];
     }
     get pointC() {
-        return this[PointC];
+        return this[_PointC];
     }
     get lineA() {
-        return this[LineA];
+        return this[_LineA];
     }
     get lineB() {
-        return this[LineB];
+        return this[_LineB];
     }
     get lineC() {
-        return this[LineC];
+        return this[_LineC];
     }
 }
 

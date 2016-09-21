@@ -6,6 +6,12 @@ Math 2D
 
 ## REFERENCE
 
+[Point]
+[Line]
+[LineSegment]
+[Circle]
+[Triangle]
+[Rectangle]
 
 ## LICENSE
 [The MIT License](http://opensource.org/licenses/MIT)

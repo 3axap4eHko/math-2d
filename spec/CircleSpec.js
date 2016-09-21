@@ -1,7 +1,6 @@
 'use strict';
 
 import Point from '../src/Point';
-import Line from '../src/Line';
 import Circle from '../src/Circle';
 
 const pointA = new Point(0,0);
