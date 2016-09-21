@@ -40,20 +40,30 @@ export default class LineEquation {
     static getIntersect(lineEquationA, lineEquationB) {
         const {A:A1, B:B1, C:C1} = lineEquationA;
         const {A:A2, B:B2, C:C2} = lineEquationB;
-        const x = (B2*C1/B1 + C2) / ( B2*A1/B1 - A2);
-
-        return lineEquationA.calcY(x);
+        const x = (C1*B2 - B1*C2) / (B1*A2 - A1*B2);
+        const y = (A2*C1 - C2*A1) / (A1*B2 - A2*B1);
+        return new Point(x, y);
     }
     static isAlign(lineEquation, point) {
         return lineEquation.calc(point) === 0;
     }
-    static getPointsAtDistance(lineEquation, point, distance) {
-        const {A:Ap, B:Bp, C:Cp} = LineEquation.getPerpendicular(lineEquation, point);
+    static getClosestPointTo(lineEquation, point) {
         const {A, B, C} = lineEquation;
-        const x1 = ( Bp*C - B*Cp + distance * B * sqrt( sqr(Ap) + sqr(Bp) )  ) / (B * Ap - Bp * A);
-        const x2 = ( Bp*C - B*Cp - distance * B * sqrt( sqr(Ap) + sqr(Bp) )  ) / (B * Ap - Bp * A);
-        const y1 = point.y + sqrt( sqr(distance) - sqr(point.x - x1) );
-        const y2 = point.y - sqrt( sqr(distance) - sqr(point.x - x2) );
+        const x = ( B*(B*point.x - A*point.y) - A*C) / (sqr(A) + sqr(B));
+        const y = ( A*(A*point.y - B*point.x) - B*C) / (sqr(A) + sqr(B));
+
+        return new Point(x, y);
+    }
+    static getPointsAtDistance(lineEquation, point, distance) {
+        const {A, B, C} = lineEquation;
+        const {A:Ap, B:Bp, C:Cp} = LineEquation.getPerpendicular(lineEquation, point);
+
+        const x1 = ( Bp*C - B*Cp + distance * B * sqrt( sqr(Ap) + sqr(Bp) ) ) / (B*Ap - Bp*A);
+        const x2 = ( Bp*C - B*Cp - distance * B * sqrt( sqr(Ap) + sqr(Bp) ) ) / (B*Ap - Bp*A);
+
+        const y1 = ( Ap*C - A*Cp + distance * A * sqrt( sqr(Ap) + sqr(Bp) ) ) / (A*Bp - Ap*B);
+        const y2 = ( Ap*C - A*Cp - distance * A * sqrt( sqr(Ap) + sqr(Bp) ) ) / (A*Bp - Ap*B);
+
 
         return [
             new Point(x1, y1),
@@ -64,7 +74,7 @@ export default class LineEquation {
     static createFromPoints(pointA, pointB) {
         const A = pointB.y - pointA.y;
         const B = pointA.x - pointB.x;
-        const C = - pointA.x * A + pointA.y * B;
+        const C = - pointA.x * A - pointA.y * B;
 
         return new LineEquation(A, B, C);
     }

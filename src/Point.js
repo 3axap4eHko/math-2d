@@ -59,3 +59,5 @@ export default class Point {
         return JSON.stringify(this.toObject());
     }
 }
+
+Point.ZERO = new Point(0,0);

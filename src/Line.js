@@ -27,7 +27,6 @@ export default class Line {
     }
     static areIntersect(lineA, lineB) {
         const intersectPoint = LineEquation.getIntersect(lineA.equation, lineB.equation);
-
         return Line.isAlign(lineA, intersectPoint) && Line.isAlign(lineB, intersectPoint);
     }
     static getPerpendicular(line, point) {
