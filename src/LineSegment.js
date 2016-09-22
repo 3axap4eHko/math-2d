@@ -54,7 +54,7 @@ export default class LineSegment {
     get pointB() {
         return this[_PointB];
     }
-    get center() {
+    get middle() {
         return this[_Middle];
     }
     get module() {

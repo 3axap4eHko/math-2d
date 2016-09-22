@@ -1,5 +1,6 @@
 'use strict';
 
+import Line from './Line';
 import LineSegment from './LineSegment';
 import Circle from './Circle';
 
@@ -9,6 +10,14 @@ const _PointC = Symbol('pointC');
 const _LineA  = Symbol('lineA');
 const _LineB  = Symbol('lineB');
 const _LineC  = Symbol('lineC');
+const _AngleA  = Symbol('angleA');
+const _AngleB  = Symbol('angleB');
+const _AngleC  = Symbol('angleC');
+const _Semiperimeter  = Symbol('semiperimeter');
+const _OrthoCenter  = Symbol('orthoCenter');
+const _CircumscribedCircleRadius  = Symbol('circumscribedCircleRadius');
+const _InscribedCircleRadius  = Symbol('inscribedCircleRadius');
+const _Area  = Symbol('area');
 
 const vertexes = {
     A: _PointA,
@@ -21,13 +30,13 @@ const vertexOppositeLine = {
     B: _LineC,
     C: _LineA,
 };
-/*
-const vertexAlignLines = {
-    A: [LineC, LineA],
-    B: [LineA, LineB],
-    C: [LineB, LineC],
-};
 
+const vertexAlignLines = {
+    A: [_LineC, _LineA],
+    B: [_LineA, _LineB],
+    C: [_LineB, _LineC],
+};
+/*
 const lines = {
     a: LineA,
     b: LineB,
@@ -66,6 +75,14 @@ export default class Triangle {
         const line = getVertexOppositeLine(triangle, vertex);
         return LineSegment.getPerpendicular(line, point);
     }
+    static getCircumscribedCircle(triangle) {
+        const {orthoCenter, circumscribedCircleRadius} = triangle;
+        return new Circle(orthoCenter, circumscribedCircleRadius);
+    }
+    static getInscribedCircle(triangle) {
+        const {orthoCenter, circumscribedCircleRadius} = triangle;
+        return new Circle(orthoCenter, circumscribedCircleRadius);
+    }
     static createFromLineAndLength(line, lengthA, lengthB) {
         const circleA = new Circle(line.pointA, lengthA);
         const circleB = new Circle(line.pointB, lengthB);
@@ -79,6 +96,16 @@ export default class Triangle {
         this[_LineA]  = new LineSegment(pointA, pointB);
         this[_LineB]  = new LineSegment(pointB, pointC);
         this[_LineC]  = new LineSegment(pointC, pointA);
+        this[_AngleA] = Line.getAngle(...vertexAlignLines.A);
+        this[_AngleB] = Line.getAngle(...vertexAlignLines.B);
+        this[_AngleC] = Line.getAngle(...vertexAlignLines.C);
+        this[_Semiperimeter] = (this[_LineA].length + this[_LineB].length + this[_LineC].length) / 2;
+        const lineAp = Line.getPerpendicular(this[_LineA].line, this[_LineA].middle);
+        const lineBp = Line.getPerpendicular(this[_LineB].line, this[_LineB].middle);
+        this[_OrthoCenter] = Line.getIntersect(lineAp, lineBp);
+        this[_CircumscribedCircleRadius] = this[_LineA].length / (2*Math.sin(this[_AngleA]));
+        this[_Area] = this[_LineA].length*this[_LineB].length*this[_LineC].length / (4*this[_CircumscribedCircleRadius]);
+        this[_InscribedCircleRadius] = this[_Area] / this[_Semiperimeter];
     }
     get pointA() {
         return this[_PointA];
@@ -89,14 +116,35 @@ export default class Triangle {
     get pointC() {
         return this[_PointC];
     }
-    get lineA() {
+    get lineSegmentA() {
         return this[_LineA];
     }
-    get lineB() {
+    get lineSegmentB() {
         return this[_LineB];
     }
-    get lineC() {
+    get lineSegmentC() {
         return this[_LineC];
+    }
+    get angleA() {
+        return this[_AngleA];
+    }
+    get angleB() {
+        return this[_AngleB];
+    }
+    get angleC() {
+        return this[_AngleC];
+    }
+    get orthoCenter() {
+        return this[_OrthoCenter];
+    }
+    get circumscribedCircleRadius() {
+        return this[_CircumscribedCircleRadius];
+    }
+    get inscribedCircleRadius() {
+        return this[_InscribedCircleRadius];
+    }
+    get area() {
+        return this[_Area];
     }
 }
 
