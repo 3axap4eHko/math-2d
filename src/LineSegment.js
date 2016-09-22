@@ -35,6 +35,11 @@ export default class LineSegment {
 
         return new LineSegment(point, intersection);
     }
+    static getPointsAtDistance(lineSegment, point, distance) {
+        return Line
+            .getPointsAtDistance(lineSegment.line, point, distance)
+            .filter( point => LineSegment.isAlign(lineSegment, point) );
+    }
     constructor(pointA, pointB) {
         this[_PointA] = pointA;
         this[_PointB] = pointB;

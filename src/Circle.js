@@ -20,31 +20,28 @@ export default class Circle {
     }
     static getIntersect(circleA, circleB) {
         const result = [];
-        const line = new LineSegment(circleA.center, circleB.center);
+        const lineSegment = new LineSegment(circleA.center, circleB.center);
         const distance = circleA.radius + circleB.radius;
-        if ( line.length > 0 && distance >= line.length ) {
-            const a = (sqr(circleA.radius) - sqr(circleA.radius) + sqr(line.length)) / (2*line.length);
+        if ( lineSegment.length > 0 && distance >= lineSegment.length ) {
+            const a = (sqr(circleA.radius) - sqr(circleA.radius) + sqr(lineSegment.length)) / (2*lineSegment.length);
             const height = sqrt(sqr(circleA.radius)-sqr(a));
-            const points = Line
-                .getPointsAtDistance(line.equation, line.pointA, a);
-
-            const [point] = points.filter( p => LineSegment.isAlign(line, p) );
-            const x1 = point.x + height * LineSegment.getDY(line)/line.length;
-            const y1 = point.y + height * LineSegment.getDX(line)/line.length;
+            const [point] = LineSegment.getPointsAtDistance(lineSegment, lineSegment.pointA, a);
+            const x1 = point.x + height * LineSegment.getDY(lineSegment)/lineSegment.length;
+            const y1 = point.y + height * LineSegment.getDX(lineSegment)/lineSegment.length;
             result.push( new Point(x1, y1) );
-            if (distance !== line.length) {
-                const x2 = point.x - height * LineSegment.getDY(line)/line.length;
-                const y2 = point.y - height * LineSegment.getDX(line)/line.length;
+            if (distance !== lineSegment.length) {
+                const x2 = point.x - height * LineSegment.getDY(lineSegment)/lineSegment.length;
+                const y2 = point.y - height * LineSegment.getDX(lineSegment)/lineSegment.length;
                 result.push( new Point(x2, y2) );
             }
         }
         return result;
     }
     static getSegment(circle, line) {
-        const height = LineSegment.getPerpendicular(line.equation, circle.center);
+        const height = Line.getPerpendicular(line, circle.center);
         const d = sqrt( sqr(circle.radius) - sqr(height.length) );
 
-        return Line.getPointsAtDistance(line.equation, height.pointB, d);
+        return Line.getPointsAtDistance(line, height.pointB, d);
     }
     constructor(center, radius) {
         this[_Center] = center;

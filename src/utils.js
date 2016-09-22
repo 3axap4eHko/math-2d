@@ -1,5 +1,10 @@
 'use strict';
 
+export const is = (value, Class) => {
+    if (value instanceof Class) return;
+    throw new TypeError('Invalid value class');
+};
+
 export const sqr = value => Math.pow(value, 2);
 export const sqrt = value => Math.pow(value, 0.5);
 
