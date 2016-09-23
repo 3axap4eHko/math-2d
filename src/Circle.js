@@ -5,8 +5,9 @@ import LineSegment from './LineSegment';
 import Line from './Line';
 import {sqr, sqrt} from './utils';
 
-const _Center = Symbol('Symbol');
-const _Radius = Symbol('Radius');
+const _Center = Symbol('Center');
+const _Radius = Symbol('radius');
+const _Area = Symbol('area');
 
 export default class Circle {
     static getDistance(circle, point) {
@@ -46,12 +47,16 @@ export default class Circle {
     constructor(center, radius) {
         this[_Center] = center;
         this[_Radius] = radius;
+        this[_Area] = 2*Math.PI*sqr(radius);
     }
     get radius() {
         return this[_Radius];
     }
     get center() {
         return this[_Center];
+    }
+    get area() {
+        return this[_Area];
     }
     calc(point) {
         return Point.getDistance(this[_Center], point) - this[_Radius];

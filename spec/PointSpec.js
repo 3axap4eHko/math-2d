@@ -3,15 +3,16 @@
 import Point from '../src/Point';
 
 describe('Point test suite', () => {
-    it('Point constructor', () => {
+    it('constructor', () => {
         const x = Math.random();
         const y = Math.random();
         const point = new Point(x,y);
         expect(point.x).toEqual(x);
         expect(point.y).toEqual(y);
+        expect(point.y).toEqual(y);
     });
 
-    it('Point immutability', () => {
+    it('immutability', () => {
         const x = Math.random();
         const y = Math.random();
         const point = new Point(x,y);
@@ -19,7 +20,7 @@ describe('Point test suite', () => {
         expect(() => point.y = 2).toThrowError();
     });
 
-    it('Point areEqual', () => {
+    it('areEqual', () => {
         const x = Math.random();
         const y = Math.random();
         const pointA = new Point(x,y);
@@ -30,7 +31,7 @@ describe('Point test suite', () => {
         expect(Point.areEqual(pointB, pointC)).toBeFalsy();
     });
 
-    it('Point isBetween', () => {
+    it('isBetween', () => {
         const pointA = new Point(0,0);
         const pointB = new Point(1,1);
         const pointC = new Point(2,2);
@@ -39,7 +40,7 @@ describe('Point test suite', () => {
         expect(Point.isBetween(pointC, pointA, pointB)).toBeFalsy();
     });
 
-    it('Point getDistance', () => {
+    it('getDistance', () => {
         const pointA = new Point(0,0);
         const pointB = new Point(0,3);
         const pointC = new Point(4,0);
@@ -48,14 +49,14 @@ describe('Point test suite', () => {
         expect(Point.getDistance(pointB, pointC)).toEqual(5);
     });
 
-    it('Point invert', () => {
+    it('invert', () => {
         const pointA = new Point(1,1);
         const pointB = Point.invert(pointA);
         expect(pointB.x).toEqual(-1);
         expect(pointB.y).toEqual(-1);
     });
 
-    it('Point add', () => {
+    it('add', () => {
         const pointA = new Point(1,1);
         const pointB = Point.invert(pointA);
         const pointC = Point.add(pointA, pointB);
@@ -63,14 +64,14 @@ describe('Point test suite', () => {
         expect(pointC.y).toEqual(0);
     });
 
-    it('Point mult', () => {
+    it('mult', () => {
         const pointA = new Point(1,1);
         const pointB = Point.mult(pointA, 2);
         expect(pointB.x).toEqual(2);
         expect(pointB.y).toEqual(2);
     });
 
-    it('Point rotate', () => {
+    it('rotate', () => {
         const pointA = new Point(1,1);
         const pointB = new Point(2,2);
         const pointC = Point.rotate(pointB, pointA, Math.PI);

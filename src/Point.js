@@ -1,10 +1,11 @@
 'use strict';
 
 import euclideanDistance from './distance/euclidean';
-import {isBetween} from './utils';
+import {isBetween, sqrt, sqr} from './utils';
 
 const _X = Symbol('x');
 const _Y = Symbol('y');
+const _Module = Symbol('module');
 
 export default class Point {
     static getDX(pointA, pointB) {
@@ -45,12 +46,16 @@ export default class Point {
     constructor(x, y) {
         this[_X] = x;
         this[_Y] = y;
+        this[_Module] = sqrt( sqr(x) + sqr(y) );
     }
     get x() {
         return this[_X];
     }
     get y() {
         return this[_Y];
+    }
+    get module() {
+        return this[_Module];
     }
     toObject() {
         return {x: this[_X], y: this[_Y]};

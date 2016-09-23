@@ -7,12 +7,16 @@ import Circle from './Circle';
 const _PointA = Symbol('pointA');
 const _PointB = Symbol('pointB');
 const _PointC = Symbol('pointC');
-const _LineA  = Symbol('lineA');
-const _LineB  = Symbol('lineB');
-const _LineC  = Symbol('lineC');
+
+const _SideAB  = Symbol('sideAB');
+const _SideBC  = Symbol('sideBC');
+const _SideCA  = Symbol('sideCA');
+
 const _AngleA  = Symbol('angleA');
 const _AngleB  = Symbol('angleB');
 const _AngleC  = Symbol('angleC');
+
+const _Perimeter  = Symbol('perimeter');
 const _Semiperimeter  = Symbol('semiperimeter');
 const _OrthoCenter  = Symbol('orthoCenter');
 const _CircumscribedCircleRadius  = Symbol('circumscribedCircleRadius');
@@ -26,15 +30,15 @@ const vertexes = {
 };
 
 const vertexOppositeLine = {
-    A: _LineB,
-    B: _LineC,
-    C: _LineA,
+    A: _SideBC,
+    B: _SideCA,
+    C: _SideAB,
 };
 
 const vertexAlignLines = {
-    A: [_LineC, _LineA],
-    B: [_LineA, _LineB],
-    C: [_LineB, _LineC],
+    A: [_SideCA, _SideAB],
+    B: [_SideAB, _SideBC],
+    C: [_SideBC, _SideCA],
 };
 /*
 const lines = {
@@ -93,18 +97,24 @@ export default class Triangle {
         this[_PointA] = pointA;
         this[_PointB] = pointB;
         this[_PointC] = pointC;
-        this[_LineA]  = new LineSegment(pointA, pointB);
-        this[_LineB]  = new LineSegment(pointB, pointC);
-        this[_LineC]  = new LineSegment(pointC, pointA);
-        this[_AngleA] = Line.getAngle(...vertexAlignLines.A);
-        this[_AngleB] = Line.getAngle(...vertexAlignLines.B);
-        this[_AngleC] = Line.getAngle(...vertexAlignLines.C);
-        this[_Semiperimeter] = (this[_LineA].length + this[_LineB].length + this[_LineC].length) / 2;
-        const lineAp = Line.getPerpendicular(this[_LineA].line, this[_LineA].middle);
-        const lineBp = Line.getPerpendicular(this[_LineB].line, this[_LineB].middle);
+
+        this[_SideAB]  = new LineSegment(pointA, pointB);
+        this[_SideBC]  = new LineSegment(pointB, pointC);
+        this[_SideCA]  = new LineSegment(pointC, pointA);
+
+        this[_AngleA] = Line.getAngle(...vertexAlignLines.A.map( key => this[key].line));
+        this[_AngleB] = Line.getAngle(...vertexAlignLines.B.map( key => this[key].line));
+        this[_AngleC] = Line.getAngle(...vertexAlignLines.C.map( key => this[key].line));
+
+        this[_Perimeter] = this[_SideAB].length + this[_SideBC].length + this[_SideCA].length;
+        this[_Semiperimeter] = this[_Perimeter] / 2;
+
+        const lineAp = Line.getPerpendicular(this[_SideAB].line, this[_SideAB].middle);
+        const lineBp = Line.getPerpendicular(this[_SideBC].line, this[_SideBC].middle);
+
         this[_OrthoCenter] = Line.getIntersect(lineAp, lineBp);
-        this[_CircumscribedCircleRadius] = this[_LineA].length / (2*Math.sin(this[_AngleA]));
-        this[_Area] = this[_LineA].length*this[_LineB].length*this[_LineC].length / (4*this[_CircumscribedCircleRadius]);
+        this[_CircumscribedCircleRadius] = this[_SideAB].length / (2*Math.sin(this[_AngleA]));
+        this[_Area] = this[_SideAB].length*this[_SideBC].length*this[_SideCA].length / (4*this[_CircumscribedCircleRadius]);
         this[_InscribedCircleRadius] = this[_Area] / this[_Semiperimeter];
     }
     get pointA() {
@@ -116,14 +126,14 @@ export default class Triangle {
     get pointC() {
         return this[_PointC];
     }
-    get lineSegmentA() {
-        return this[_LineA];
+    get sideAB() {
+        return this[_SideAB];
     }
-    get lineSegmentB() {
-        return this[_LineB];
+    get sideBC() {
+        return this[_SideBC];
     }
-    get lineSegmentC() {
-        return this[_LineC];
+    get sideCA() {
+        return this[_SideCA];
     }
     get angleA() {
         return this[_AngleA];
@@ -143,6 +153,9 @@ export default class Triangle {
     get inscribedCircleRadius() {
         return this[_InscribedCircleRadius];
     }
+    get perimeter() {
+        return this[_Perimeter];
+    }
     get area() {
         return this[_Area];
     }
@@ -151,7 +164,3 @@ export default class Triangle {
 Triangle.VERTEX_A = 'A';
 Triangle.VERTEX_B = 'B';
 Triangle.VERTEX_C = 'C';
-
-Triangle.SIDE_A = 'a';
-Triangle.SIDE_B = 'b';
-Triangle.SIDE_C = 'c';

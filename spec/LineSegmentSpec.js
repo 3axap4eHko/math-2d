@@ -9,8 +9,8 @@ const pointB = new Point(3,0);
 const pointC = new Point(6,-4);
 const pointD = new Point(6,0);
 
-describe('Line test suite', () => {
-    it('Line constructor', () => {
+describe('LineSegment test suite', () => {
+    it('constructor', () => {
         const line = new LineSegment(pointA, pointB);
 
         expect(line.pointA).toEqual(pointA);
@@ -18,7 +18,7 @@ describe('Line test suite', () => {
         expect(line.length).toEqual(Point.getDistance(pointA, pointB));
     });
 
-    it('Line areEqual', () => {
+    it('areEqual', () => {
         const lineA = new LineSegment(pointA, pointB);
         const lineB = new LineSegment(pointA, pointC);
         const lineC = new LineSegment(pointA, pointB);
@@ -28,14 +28,14 @@ describe('Line test suite', () => {
         expect(LineSegment.areEqual(lineA, lineA)).toBeTruthy();
     });
 
-    it('Line isAlign', () => {
+    it('isAlign', () => {
         const lineA = new LineSegment(pointA, pointC);
 
         expect(LineSegment.isAlign(lineA, pointB)).toBeTruthy();
         expect(LineSegment.isAlign(lineA, point0)).toBeFalsy();
     });
 
-    it('Line areIntersect', () => {
+    it('areIntersect', () => {
         const lineA = new LineSegment(pointA, pointC);
         const lineB = new LineSegment(point0, pointD);
         const lineC = new LineSegment(pointA, pointB);
