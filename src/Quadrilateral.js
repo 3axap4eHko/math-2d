@@ -1,6 +1,5 @@
 'use strict';
 
-import Point from './Point';
 import Line from './Line';
 import LineSegment from './LineSegment';
 import {sqrt} from './utils';

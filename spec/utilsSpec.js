@@ -6,7 +6,7 @@ import {
     sqredDiff,
     sqrtedSum,
     isBetween,
-    pointToId
+    pointToIdx
 } from '../src/utils';
 
 describe( 'utils test suite', () => {
@@ -44,9 +44,9 @@ describe( 'utils test suite', () => {
     } );
 
     it( 'pointToId', () => {
-        expect( pointToId( 0,0,100 ) ).toEqual(0);
-        expect( pointToId( 0,1,100 ) ).toEqual(100);
-        expect( pointToId( 50,50,100 ) ).toEqual(5050);
+        expect( pointToIdx( 0,0,100 ) ).toEqual(0);
+        expect( pointToIdx( 0,1,100 ) ).toEqual(100);
+        expect( pointToIdx( 50,50,100 ) ).toEqual(5050);
     } );
 
 } );

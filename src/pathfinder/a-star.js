@@ -2,7 +2,7 @@
 
 import {compareTake} from 'yyf-core/iterate';
 import manhattan from '../distance/manhattan';
-import {pointToId} from '../utils';
+import {pointToIdx} from '../utils';
 
 const directions = [
     {x:  1, y:  0},
@@ -32,7 +32,7 @@ export default function AStar(startPoint, finishPoint, width, height, weightCall
                 g = w + pg,
                 m = pm + 1;
             return {
-                id: id || pointToId(x, y, width),
+                id: id || pointToIdx(x, y, width),
                 x: x,
                 y: y,
                 p: pid,
@@ -59,8 +59,8 @@ export default function AStar(startPoint, finishPoint, width, height, weightCall
         },
         result = [];
 
-    startPoint = getPoint(pointToId(startPoint.x, startPoint.y, width), startPoint.x, startPoint.y,-1,0,0);
-    finishPoint = getPoint(pointToId(finishPoint.x, finishPoint.y, width), finishPoint.x, finishPoint.y,-1,0,0);
+    startPoint = getPoint(pointToIdx(startPoint.x, startPoint.y, width), startPoint.x, startPoint.y,-1,0,0);
+    finishPoint = getPoint(pointToIdx(finishPoint.x, finishPoint.y, width), finishPoint.x, finishPoint.y,-1,0,0);
     visitedList[startPoint.id] = whiteList[startPoint.id] = startPoint;
 
     while (iteration++<maxIterationCount && Object.keys(whiteList).length && (currentPoint = compareTake(whiteList, whiteListReduce).value).id != finishPoint.id) {

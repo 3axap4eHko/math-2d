@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node --harmony node_modules/jasmine/bin/jasmine.js",
+    "test": "node node_modules/jasmine/bin/jasmine.js",
     "build": "gulp",
     "patch-release": "npm version patch && git push && git push --tags && npm run build && cd build && npm publish"
   },
@@ -26,6 +26,6 @@
     "through2": "^2.0.1"
   },
   "dependencies": {
-    "yyf-core": "^2.0.8"
+    "yyf-core": "^2.0.9"
   }
 }
