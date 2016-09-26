@@ -64,9 +64,9 @@ describe('Point test suite', () => {
         expect(pointC.y).toEqual(0);
     });
 
-    it('mult', () => {
+    it('scale', () => {
         const pointA = new Point(1,1);
-        const pointB = Point.mult(pointA, 2);
+        const pointB = Point.scale(pointA, 2);
         expect(pointB.x).toEqual(2);
         expect(pointB.y).toEqual(2);
     });

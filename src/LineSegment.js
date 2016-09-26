@@ -6,7 +6,7 @@ import Line from './Line';
 const _PointA = Symbol('pointA');
 const _PointB = Symbol('pointB');
 const _Middle = Symbol('middle');
-const _Module = Symbol('module');
+const _Direction = Symbol('direction');
 const _Length = Symbol('length');
 const _Line = Symbol('line');
 
@@ -43,8 +43,8 @@ export default class LineSegment {
     constructor(pointA, pointB) {
         this[_PointA] = pointA;
         this[_PointB] = pointB;
-        this[_Middle] = Point.getMedium(pointA, pointB);
-        this[_Module] = new Point(pointA.x - pointB.x, pointA.y - pointB.y);
+        this[_Middle] = Point.getMiddle(pointA, pointB);
+        this[_Direction] = new Point(pointA.x - pointB.x, pointA.y - pointB.y);
         this[_Length] = Point.getDistance(pointA, pointB);
         this[_Line] = Line.createFromPoints(pointA, pointB);
     }
@@ -57,13 +57,22 @@ export default class LineSegment {
     get middle() {
         return this[_Middle];
     }
-    get module() {
-        return this[_Module];
+    get direction() {
+        return this[_Direction];
     }
     get length() {
         return this[_Length];
     }
     get line() {
         return this[_Line];
+    }
+    toObject() {
+        return {
+            pointA: this[_PointA].toObject(),
+            pointB: this[_PointB].toObject()
+        };
+    }
+    toString() {
+        return JSON.stringify(this.toObject());
     }
 }

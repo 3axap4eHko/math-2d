@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node node_modules/jasmine/bin/jasmine.js",
     "build": "gulp",
-    "patch-release": "npm version patch && git push && git push --tags && npm run build && cd build && npm publish"
+    "patch-release": "npm run test && npm version patch && git push && git push --tags && npm run build && cd build && npm publish"
   },
   "keywords": [],
   "author": "3axap4eHko",

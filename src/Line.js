@@ -64,7 +64,6 @@ export default class Line {
         const y1 = ( Ap*C - A*Cp + distance * A * sqrt( sqr(Ap) + sqr(Bp) ) ) / (A*Bp - Ap*B);
         const y2 = ( Ap*C - A*Cp - distance * A * sqrt( sqr(Ap) + sqr(Bp) ) ) / (A*Bp - Ap*B);
 
-
         return [
             new Point(x1, y1),
             new Point(x2, y2)
@@ -111,5 +110,8 @@ export default class Line {
             B: this[_B],
             C: this[_C],
         };
+    }
+    toString() {
+        return JSON.stringify(this.toObject());
     }
 }

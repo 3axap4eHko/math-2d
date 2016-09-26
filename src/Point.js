@@ -1,7 +1,7 @@
 'use strict';
 
 import euclideanDistance from './distance/euclidean';
-import {isBetween, sqrt, sqr} from './utils';
+import {isBetween, sqrt, sqr, pointToIdx} from './utils';
 
 const _X = Symbol('x');
 const _Y = Symbol('y');
@@ -29,19 +29,22 @@ export default class Point {
     static add(pointA, pointB) {
         return new Point(pointA.x + pointB.x, pointA.y + pointB.y);
     }
-    static mult(pointA, value) {
-        return new Point(pointA.x * value, pointA.y  * value);
+    static scale(pointA, scale) {
+        return new Point(pointA.x * scale, pointA.y  * scale);
+    }
+    static mult(pointA, pointB) {
+        return pointA.x*pointB.x + pointA.y*pointB.y;
     }
     static rotate(point, center, angle) {
         const x = center.x + (point.x - center.x) * Math.cos(angle) - (point.y - center.y) * Math.sin(angle);
         const y = center.y + (point.y - center.y) * Math.cos(angle) + (point.x - center.x) * Math.sin(angle);
         return new Point(x, y);
     }
-    static getMedium(pointA, pointB) {
-        return Point.mult( Point.add(pointA, pointB), 0.5 );
+    static getMiddle(pointA, pointB) {
+        return Point.scale( Point.add(pointA, pointB), 0.5 );
     }
-    static getId(point, width) {
-        return point.x * width + point.y;
+    static getIdx(point, width) {
+        return pointToIdx(point.x, point.y, width);
     }
     constructor(x, y) {
         this[_X] = x;
