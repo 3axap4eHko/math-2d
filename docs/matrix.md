@@ -39,6 +39,10 @@ import Matrix from 'math-2d/Matrix';
 Matrix.forEach(matrix, callback)
 // map all elements of the matrix to new matrix by callback(value, rowIdx, columnIdx)
 Matrix.map(matrix, callback)
+// reduce all elements of the matrix to new matrix by callback(rows, rowIdx)
+Matrix.mapRows(matrix, callback)
+// reduce all elements of the matrix to new matrix by callback(result, value, rowIdx, columnIdx)
+Matrix.reduce(matrix, callback, [init])
 // returns true if all callback(value, rowIdx, columnIdx) results return true
 Matrix.every(matrix, callback)
 // returns true if at least one result of callback(value, rowIdx, columnIdx) returned true
@@ -52,7 +56,13 @@ Matrix.add(matrix1, matrix2)
 // returns difference of matrix
 Matrix.sub(matrix1, matrix2)
 // returns scaled matrix
-Matrix.scale(matrix1, scale)
-// return result of matrix multiplication
+Matrix.scale(matrix, scale)
+// returns scaled matrix by rows
+Matrix.scaleRows(matrix, scales)
+// returns result of matrix multiplication
 Matrix.mult(matrix1, matrix2)
+// returns upper triangular matrix representation
+Matrix.getTriangular(matrix)
+// returns matrix determinant
+Matrix.getDeterminant(matrix)
 ```

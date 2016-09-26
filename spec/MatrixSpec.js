@@ -115,4 +115,27 @@ describe('Matrix test suite', () => {
         expect(resultMatrix.height).toEqual(matrix1.height);
         expect(Matrix.every(resultMatrix, value => value === 4)).toBeTruthy();
     });
+    it('getTriangular', () => {
+        const matrix = new Matrix([
+            [1,2,3],
+            [4,5,6],
+            [7,8,10],
+        ]);
+        const triangularMatrix = Matrix.getTriangular(matrix);
+        expect(triangularMatrix.getRows()).toEqual([ [ 1, 2, 3 ], [ 0, -0.75, -1.5 ], [ 0, 0, 0.125 ] ])
+    });
+    it('getDeterminant', () => {
+        const matrix1 = new Matrix([
+            [1,2,3],
+            [4,5,6],
+            [7,8,9],
+        ]);
+        const matrix2 = new Matrix([
+            [1,2,3],
+            [4,5,6],
+            [7,8,10],
+        ]);
+        expect(Matrix.getDeterminant(matrix1) === 0).toBeTruthy();
+        expect(Matrix.getDeterminant(matrix2)).toEqual(-0.09375);
+    });
 });

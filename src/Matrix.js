@@ -31,6 +31,21 @@ export default class Matrix {
             matrix.converter
         )
     }
+    static mapRows(matrix, callback) {
+        return new Matrix(
+            Array.from({length: matrix.height}).map( (_, y) => {
+                return callback(matrix.getRow(y), y);
+            }),
+            matrix.converter
+        )
+    }
+    static reduce(matrix, callback, ...init) {
+        return matrix.getRows().reduce( (result, row, rowIdx) => {
+            return row.reduce( (reduced, value, colIdx) => {
+                return callback(reduced, value, rowIdx, colIdx);
+            }, result);
+        }, ...init)
+    }
     static every(matrix, callback) {
         let result = true;
         repeatWhile(matrix.height, rowIdx => {
@@ -77,8 +92,12 @@ export default class Matrix {
             return value - matrix2.getValue(rowIdx, columnIdx);
         });
     }
-    static scale(matrix1, scale) {
-        return Matrix.map(matrix1, value => value * scale);
+    static scale(matrix, scale) {
+        return Matrix.map(matrix, value => value * scale);
+
+    }
+    static scaleRows(matrix, scales) {
+        return Matrix.map(matrix, (value, idx) => value * scales[idx]);
 
     }
     static mult(matrix1, matrix2) {
@@ -96,6 +115,31 @@ export default class Matrix {
             });
         });
         return new Matrix(data, matrix1.converter);
+    }
+    static getTriangular(matrix) {
+        const rows = matrix.getRows();
+        const triangularRows = rows.reduce( (result, _, mapRowIdx) => {
+            const mapRow = result[mapRowIdx];
+            const mapValue = mapRow[mapRowIdx];
+            return result.map( (row, rowIdx) => {
+                if (row[mapRowIdx] === 0 || rowIdx <= mapRowIdx) {
+                    return row;
+                }
+                const coefficient = row[mapRowIdx] / mapValue;
+                const sign = -1 * Math.sign(coefficient);
+                return row.map( (value, colIdx) => {
+                    return value + sign * mapRow[colIdx] * coefficient;
+                })
+            });
+        }, rows);
+        return new Matrix(triangularRows, matrix.converter);
+    }
+    static getDeterminant(matrix) {
+        const triangularMatrix = Matrix.getTriangular(matrix);
+        const rows = triangularMatrix.getRows();
+        return rows
+            .map( (rows, idx) => rows[idx] )
+            .reduce( (result, value) => result * value );
     }
     constructor(data, converter = v => v) {
         const width = getMaxLength(data);
