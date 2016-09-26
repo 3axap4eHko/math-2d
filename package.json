@@ -1,7 +1,7 @@
 {
   "name": "math-2d",
   "version": "0.0.4",
-  "description": "",
+  "description": "Math 2D library to work with 2D geometry entities",
   "main": "index.js",
   "scripts": {
     "test": "node node_modules/jasmine/bin/jasmine.js",
@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "3axap4eHko",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^6.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
@@ -27,5 +27,16 @@
   },
   "dependencies": {
     "yyf-core": "^2.0.9"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/3axap4eHko/math-2d.git"
+  },
+  "bugs": {
+    "url": "https://github.com/3axap4eHko/math-2d/issues"
+  },
+  "homepage": "https://github.com/3axap4eHko/math-2d#readme"
 }
