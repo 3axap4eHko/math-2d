@@ -1,5 +1,7 @@
 # Math 2D
 
+Math 2D Library with Immutable classes
+
 ## INSTALL
 
  $ npm install math-2d

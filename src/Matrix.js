@@ -9,7 +9,6 @@ const _Sign = Symbol('sign');
 const _Matrix = Symbol('matrix');
 const _Converter = Symbol('converter');
 
-
 function getMaxLength(data) {
     return data.reduce( (max, row) => max < row.length ? row.length : max, 0 );
 }
@@ -22,6 +21,9 @@ function getLeadingZeroCount(row) {
         return result;
     }, 0);
 }
+
+const DEFAULT_SIGN = 1;
+const DEFAULT_CONVERTER = v => v;
 
 export default class Matrix {
     static forEach(matrix, callback) {
@@ -189,7 +191,7 @@ export default class Matrix {
             return cramerDeterminant / determinant;
         });
     }
-    constructor(data, sign = 1, converter = v => v) {
+    constructor(data, sign = DEFAULT_SIGN, converter = DEFAULT_CONVERTER) {
         const width = getMaxLength(data);
 
         this[_Height] = data.length;

@@ -28,7 +28,6 @@ const _BimedianIJ = Symbol('bimedianIJ');
 
 const _VertexCentroid = Symbol('vertexCentroid');
 
-
 const _Perimeter  = Symbol('perimeter');
 const _Semiperimeter  = Symbol('semiperimeter');
 const _CircumscribedCircleRadius  = Symbol('circumscribedCircleRadius');

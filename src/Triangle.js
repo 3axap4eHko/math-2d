@@ -96,7 +96,7 @@ export default class Triangle {
         const pointB = Point.rotate(triangle.pointB, center, angle);
         const pointC = Point.rotate(triangle.pointC, center, angle);
 
-        return new Triangle(pointA, pointB, pointC, pointD);
+        return new Triangle(pointA, pointB, pointC);
     }
     static createFromLineAndLength(line, lengthA, lengthB) {
         const circleA = new Circle(line.pointA, lengthA);
