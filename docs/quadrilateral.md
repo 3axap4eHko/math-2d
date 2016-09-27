@@ -1,5 +1,4 @@
-QUADRILATERAL
-====
+# QUADRILATERAL
 
 ``` javascript
 ```

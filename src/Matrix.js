@@ -5,12 +5,22 @@ import {pointToIdx} from './utils';
 
 const _Height = Symbol('height');
 const _Width = Symbol('width');
+const _Sign = Symbol('sign');
 const _Matrix = Symbol('matrix');
 const _Converter = Symbol('converter');
 
 
 function getMaxLength(data) {
     return data.reduce( (max, row) => max < row.length ? row.length : max, 0 );
+}
+
+function getLeadingZeroCount(row) {
+    return row.reduce( (result, value, idx) => {
+        if (value === 0 && result === idx) {
+            return result + 1;
+        }
+        return result;
+    }, 0);
 }
 
 export default class Matrix {
@@ -28,6 +38,7 @@ export default class Matrix {
                     return callback(matrix.getValue(y, x), y, x);
                 });
             }),
+            matrix.sign,
             matrix.converter
         )
     }
@@ -36,8 +47,16 @@ export default class Matrix {
             Array.from({length: matrix.height}).map( (_, y) => {
                 return callback(matrix.getRow(y), y);
             }),
+            matrix.sign,
             matrix.converter
         )
+    }
+    static mapColumns(matrix, callback) {
+        const columns = matrix.getColumns().map(callback);
+        const rows = Array.from({length: matrix.height}).map((_, rowIdx) => {
+            return columns.map( (column, columnIdx) => column[rowIdx]);
+        });
+        return new Matrix(rows, matrix.sign, matrix.converter);
     }
     static reduce(matrix, callback, ...init) {
         return matrix.getRows().reduce( (result, row, rowIdx) => {
@@ -72,6 +91,7 @@ export default class Matrix {
     }
     static areEqual(matrix1, matrix2) {
         return Matrix.areSame(matrix1, matrix2) &&
+                matrix1.sign === matrix2.sign &&
                 Matrix.every(matrix1, (value, rowIdx, columnIdx) => value === matrix2.getValue(rowIdx, columnIdx));
     }
     static add(matrix1, matrix2) {
@@ -97,7 +117,11 @@ export default class Matrix {
 
     }
     static scaleRows(matrix, scales) {
-        return Matrix.map(matrix, (value, idx) => value * scales[idx]);
+        return Matrix.map(matrix, (value, rowIdx) => value * scales[rowIdx]);
+
+    }
+    static scaleColumns(matrix, scales) {
+        return Matrix.map(matrix, (value, _, columnIdx) => value * scales[columnIdx]);
 
     }
     static mult(matrix1, matrix2) {
@@ -114,10 +138,14 @@ export default class Matrix {
                 }, 0)
             });
         });
-        return new Matrix(data, matrix1.converter);
+        return new Matrix(data, matrix1.sign, matrix1.converter);
     }
-    static getTriangular(matrix) {
+    static getTransposedMatrix(matrix) {
+        return new Matrix(matrix.getColumns(), matrix.sign, matrix.converter);
+    }
+    static getTriangularMatrix(matrix) {
         const rows = matrix.getRows();
+        let sign = matrix.sign;
         const triangularRows = rows.reduce( (result, _, mapRowIdx) => {
             const mapRow = result[mapRowIdx];
             const mapValue = mapRow[mapRowIdx];
@@ -125,28 +153,47 @@ export default class Matrix {
                 if (row[mapRowIdx] === 0 || rowIdx <= mapRowIdx) {
                     return row;
                 }
-                const coefficient = row[mapRowIdx] / mapValue;
-                const sign = -1 * Math.sign(coefficient);
+                const coefficient = - row[mapRowIdx] / mapValue;
                 return row.map( (value, colIdx) => {
-                    return value + sign * mapRow[colIdx] * coefficient;
+                    return value + mapRow[colIdx] * coefficient;
                 })
+            }).sort( (rowA, rowB) => {
+                const order = getLeadingZeroCount(rowA) - getLeadingZeroCount(rowB);
+                if (order > 0) {
+                    sign = -sign;
+                }
+                return order;
             });
         }, rows);
-        return new Matrix(triangularRows, matrix.converter);
+        return new Matrix(triangularRows, sign, matrix.converter);
+    }
+    static getRank(matrix) {
+        const triangularMatrix = Matrix.getTriangularMatrix(matrix);
+        return triangularMatrix.getRows().reduce( (result, row) => {
+            return result + row.some( value => value !== 0)
+        },0)
     }
     static getDeterminant(matrix) {
-        const triangularMatrix = Matrix.getTriangular(matrix);
+        const triangularMatrix = Matrix.getTriangularMatrix(matrix);
         const rows = triangularMatrix.getRows();
         return rows
             .map( (rows, idx) => rows[idx] )
-            .reduce( (result, value) => result * value );
+            .reduce( (result, value) => result * value ) * triangularMatrix.sign;
     }
-    constructor(data, converter = v => v) {
+    static solveByCramerRule(matrix, values) {
+        const determinant = Matrix.getDeterminant(matrix);
+        return Array.from({length: matrix.width}).map( (_, mapColumnIdx) => {
+            const cramerMatrix = Matrix.mapColumns(matrix, (column, columnIdx) => mapColumnIdx === columnIdx ? values : column);
+            const cramerDeterminant = Matrix.getDeterminant(cramerMatrix);
+
+            return cramerDeterminant / determinant;
+        });
+    }
+    constructor(data, sign = 1, converter = v => v) {
         const width = getMaxLength(data);
 
         this[_Height] = data.length;
         this[_Width] = width;
-
         const matrix = [];
         data.forEach( (row, y) => {
             row.forEach( (value, x) => {
@@ -155,6 +202,7 @@ export default class Matrix {
             });
         });
         this[_Matrix] = matrix;
+        this[_Sign] = sign;
         this[_Converter] = converter;
     }
     get width() {
@@ -165,6 +213,9 @@ export default class Matrix {
     }
     get converter() {
         return this[_Converter];
+    }
+    get sign() {
+        return this[_Sign];
     }
     getRow(rowIdx) {
         return this[_Matrix]

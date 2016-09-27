@@ -1,5 +1,4 @@
-MATRIX
-====
+# MATRIX
 
 Matrix operations
 
@@ -7,11 +6,14 @@ Matrix operations
 ``` javascript
 import Matrix from 'math-2d/Matrix';
 
-// creation matrix by rows and converter
+// creation matrix by rows, sign and converter
 const matrix = new Matrix([
-    [1,2,3,4,5],
-    [6,7,8,9,10]
-], value => value % 10);
+        [1,2,3,4,5],
+        [6,7,8,9,10]
+    ],
+    -1,
+    value => value % 10
+);
 
 // getting width of the matrix
 matrix.width
@@ -39,7 +41,7 @@ import Matrix from 'math-2d/Matrix';
 Matrix.forEach(matrix, callback)
 // map all elements of the matrix to new matrix by callback(value, rowIdx, columnIdx)
 Matrix.map(matrix, callback)
-// reduce all elements of the matrix to new matrix by callback(rows, rowIdx)
+// reduce all rows of the matrix to new matrix by callback(rows, rowIdx)
 Matrix.mapRows(matrix, callback)
 // reduce all elements of the matrix to new matrix by callback(result, value, rowIdx, columnIdx)
 Matrix.reduce(matrix, callback, [init])
@@ -61,8 +63,14 @@ Matrix.scale(matrix, scale)
 Matrix.scaleRows(matrix, scales)
 // returns result of matrix multiplication
 Matrix.mult(matrix1, matrix2)
+// returns transposed matrix
+Matrix.getTransposedMatrix(matrix)
 // returns upper triangular matrix representation
-Matrix.getTriangular(matrix)
+Matrix.getTriangularMatrix(matrix)
+// returns matrix rank
+Matrix.getRank(matrix)
 // returns matrix determinant
 Matrix.getDeterminant(matrix)
+// solve matrix as linear equation by Cramer Rule
+Matrix.solveByCramerRule(matrix)
 ```

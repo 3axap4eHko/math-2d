@@ -42,6 +42,7 @@ export default class Line {
         const {A:A2, B:B2, C:C2} = lineB;
         const x = (C1*B2 - B1*C2) / (B1*A2 - A1*B2);
         const y = (A2*C1 - C2*A1) / (A1*B2 - A2*B1);
+
         return new Point(x, y);
     }
     static isAlign(line, point) {
@@ -69,7 +70,6 @@ export default class Line {
             new Point(x2, y2)
         ]
     }
-
     static createFromPoints(pointA, pointB) {
         const A = pointB.y - pointA.y;
         const B = pointA.x - pointB.x;

@@ -44,6 +44,10 @@ export default class Circle {
 
         return Line.getPointsAtDistance(line, height.pointB, d);
     }
+    static rotate(circle, center, angle) {
+        const circleCenter = Point.rotate(circle.center, center, angle);
+        return new Circle(circleCenter, circle.radius);
+    }
     constructor(center, radius) {
         this[_Center] = center;
         this[_Radius] = radius;

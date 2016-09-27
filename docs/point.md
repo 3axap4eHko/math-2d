@@ -1,5 +1,4 @@
-POINT
-=====
+# POINT
 
 ### Dynamic methods and properties
 ``` javascript

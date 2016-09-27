@@ -1,5 +1,4 @@
-LINE SEGMENT
-============
+# LINE SEGMENT
 
 Line segment is a line limited by two points
 
@@ -45,4 +44,6 @@ LineSegment.areIntersect(lineSegmentA, lineSegmentB)
 LineSegment.getPerpendicular(lineSegment, point)
 // returns points on the line segment at defined distance from the defined point
 LineSegment.getPointsAtDistance(lineSegment, point, distance)
+// returns rotated line segment for the angle around the center point
+LineSegment.rotate(lineSegment, point, angle)
 ```

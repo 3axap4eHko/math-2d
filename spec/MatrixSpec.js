@@ -115,14 +115,44 @@ describe('Matrix test suite', () => {
         expect(resultMatrix.height).toEqual(matrix1.height);
         expect(Matrix.every(resultMatrix, value => value === 4)).toBeTruthy();
     });
-    it('getTriangular', () => {
+    it('getTransposedMatrix', () => {
         const matrix = new Matrix([
             [1,2,3],
             [4,5,6],
             [7,8,10],
         ]);
-        const triangularMatrix = Matrix.getTriangular(matrix);
-        expect(triangularMatrix.getRows()).toEqual([ [ 1, 2, 3 ], [ 0, -0.75, -1.5 ], [ 0, 0, 0.125 ] ])
+        const triangularMatrix = Matrix.getTransposedMatrix(matrix);
+        expect(triangularMatrix.getRows()).toEqual([ [ 1, 4, 7 ], [ 2, 5, 8 ], [ 3, 6, 10 ] ]);
+    });
+    it('getTriangularMatrix', () => {
+        const matrix1 = new Matrix([
+            [1,2,3],
+            [4,5,6],
+            [7,8,10],
+        ]);
+        const matrix2 = new Matrix([
+            [1,2,3],
+            [4,5,6],
+            [3,8,10],
+        ]);
+        const triangularMatrix1 = Matrix.getTriangularMatrix(matrix1);
+        expect(triangularMatrix1.getRows()).toEqual([ [ 1, 2, 3 ], [ 0, -3, -6 ], [ 0, 0, 1 ] ]);
+        const triangularMatrix2 = Matrix.getTriangularMatrix(matrix2);
+        expect(triangularMatrix2.getRows()).toEqual([ [ 1, 2, 3 ], [ 0, -3, -6 ], [ 0, 0, -3 ] ]);
+    });
+    it('getRank', () => {
+        const matrix1 = new Matrix([
+            [1,2,3],
+            [4,5,6],
+            [7,8,9],
+        ]);
+        const matrix2 = new Matrix([
+            [1,2,3],
+            [4,5,6],
+            [7,8,10],
+        ]);
+        expect(Matrix.getRank(matrix1)).toEqual(2);
+        expect(Matrix.getRank(matrix2)).toEqual(3);
     });
     it('getDeterminant', () => {
         const matrix1 = new Matrix([
@@ -135,7 +165,28 @@ describe('Matrix test suite', () => {
             [4,5,6],
             [7,8,10],
         ]);
+        const matrix3 = new Matrix([
+            [1,2,3],
+            [4,5,6],
+            [3,8,10],
+        ]);
+        const matrix4 = new Matrix([
+            [ 1, 1, 3 ],
+            [ 4, 4, 6 ],
+            [ 7, 3, 10 ]
+        ]);
         expect(Matrix.getDeterminant(matrix1) === 0).toBeTruthy();
-        expect(Matrix.getDeterminant(matrix2)).toEqual(-0.09375);
+        expect(Matrix.getDeterminant(matrix2)).toEqual(-3);
+        expect(Matrix.getDeterminant(matrix3)).toEqual(9);
+        expect(Matrix.getDeterminant(matrix4)).toEqual(-24);
+    });
+    it('solveByCramerRule', () => {
+        const matrix = new Matrix([
+            [1,2,3],
+            [4,5,6],
+            [7,8,10],
+        ]);
+        const solution = Matrix.solveByCramerRule(matrix, [1,4,3]);
+        expect(solution).toEqual([ -3, 8, -4 ]);
     });
 });

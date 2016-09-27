@@ -40,6 +40,12 @@ export default class LineSegment {
             .getPointsAtDistance(lineSegment.line, point, distance)
             .filter( point => LineSegment.isAlign(lineSegment, point) );
     }
+    static rotate(lineSegment, center, angle) {
+        const pointA = Point.rotate(lineSegment.pointA, center, angle);
+        const pointB = Point.rotate(lineSegment.pointB, center, angle);
+
+        return new LineSegment(pointA, pointB);
+    }
     constructor(pointA, pointB) {
         this[_PointA] = pointA;
         this[_PointB] = pointB;

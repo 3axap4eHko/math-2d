@@ -1,5 +1,6 @@
 'use strict';
 
+import Point from './Point';
 import Line from './Line';
 import LineSegment from './LineSegment';
 import {sqrt} from './utils';
@@ -39,6 +40,14 @@ export default class Quadrilateral {
 
     static hasInscribedCircle(quadrilateral) {
         return quadrilateral.sideAB.length + quadrilateral.sideCD.length === quadrilateral.sideBC.length + quadrilateral.sideDA.length;
+    }
+    static rotate(quadrilateral, center, angle) {
+        const pointA = Point.rotate(quadrilateral.pointA, center, angle);
+        const pointB = Point.rotate(quadrilateral.pointB, center, angle);
+        const pointC = Point.rotate(quadrilateral.pointC, center, angle);
+        const pointD = Point.rotate(quadrilateral.pointD, center, angle);
+
+        return new Quadrilateral(pointA, pointB, pointC, pointD);
     }
     constructor(pointA, pointB, pointC, pointD) {
         this[_PointA] = pointA;

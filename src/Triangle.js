@@ -1,5 +1,6 @@
 'use strict';
 
+import Point from './Point';
 import Line from './Line';
 import LineSegment from './LineSegment';
 import Circle from './Circle';
@@ -77,20 +78,31 @@ export default class Triangle {
     static getHeight(triangle, vertex) {
         const point = getVertex(triangle, vertex);
         const line = getVertexOppositeLine(triangle, vertex);
+
         return LineSegment.getPerpendicular(line, point);
     }
     static getCircumscribedCircle(triangle) {
         const {orthoCenter, circumscribedCircleRadius} = triangle;
+
         return new Circle(orthoCenter, circumscribedCircleRadius);
     }
     static getInscribedCircle(triangle) {
         const {orthoCenter, circumscribedCircleRadius} = triangle;
+
         return new Circle(orthoCenter, circumscribedCircleRadius);
+    }
+    static rotate(triangle, center, angle) {
+        const pointA = Point.rotate(triangle.pointA, center, angle);
+        const pointB = Point.rotate(triangle.pointB, center, angle);
+        const pointC = Point.rotate(triangle.pointC, center, angle);
+
+        return new Triangle(pointA, pointB, pointC, pointD);
     }
     static createFromLineAndLength(line, lengthA, lengthB) {
         const circleA = new Circle(line.pointA, lengthA);
         const circleB = new Circle(line.pointB, lengthB);
         const points = Circle.getIntersect(circleA, circleB);
+
         return points.map( point => new Triangle(line.pointA, line.pointA, point));
     }
     constructor(pointA, pointB, pointC) {

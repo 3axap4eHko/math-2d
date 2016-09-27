@@ -1,5 +1,4 @@
-TRIANGLE
-====
+# TRIANGLE
 
 ``` javascript
 ```

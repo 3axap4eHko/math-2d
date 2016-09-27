@@ -1,5 +1,4 @@
-LINE
-====
+# LINE
 
 ### Dynamic methods and properties
 ``` javascript
