@@ -56,7 +56,7 @@ export default class Matrix {
     static mapColumns(matrix, callback) {
         const columns = matrix.getColumns().map(callback);
         const rows = Array.from({length: matrix.height}).map((_, rowIdx) => {
-            return columns.map( (column, columnIdx) => column[rowIdx]);
+            return columns.map( column => column[rowIdx]);
         });
         return new Matrix(rows, matrix.sign, matrix.converter);
     }
