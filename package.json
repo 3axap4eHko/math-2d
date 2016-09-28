@@ -1,6 +1,6 @@
 {
   "name": "math-2d",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Math 2D library to work with 2D geometry entities",
   "main": "index.js",
   "scripts": {
