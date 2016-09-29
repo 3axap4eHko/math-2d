@@ -15,6 +15,7 @@ Math 2D Library with Immutable classes
  - [Triangle](docs/triangle.md)
  - [Quadrilateral](docs/quadrilateral.md)
  - [Matrix](docs/matrix.md)
+ - [Bezier](docs/bezier.md)
 
 ## LICENSE
 

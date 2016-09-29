@@ -29,6 +29,9 @@ export default class Point {
     static add(pointA, pointB) {
         return new Point(pointA.x + pointB.x, pointA.y + pointB.y);
     }
+    static sub(pointA, pointB) {
+        return new Point(pointB.x - pointA.x, pointB.y + pointA.y);
+    }
     static scale(pointA, scale) {
         return new Point(pointA.x * scale, pointA.y  * scale);
     }
@@ -39,6 +42,10 @@ export default class Point {
         const x = center.x + (point.x - center.x) * Math.cos(angle) - (point.y - center.y) * Math.sin(angle);
         const y = center.y + (point.y - center.y) * Math.cos(angle) + (point.x - center.x) * Math.sin(angle);
         return new Point(x, y);
+    }
+    static getProgress(pointA, pointB, progress) {
+        const vector = Point.sub(pointA, pointB);
+        return Point.add(pointA, Point.scale(vector, progress) );
     }
     static getMiddle(pointA, pointB) {
         return Point.scale( Point.add(pointA, pointB), 0.5 );

@@ -36,12 +36,16 @@ Point.isBetween(point, pointA, pointB)
 Point.invert(point)
 // returns sum of two points
 Point.add(pointA, pointB)
+// returns diff of two points
+Point.add(pointA, pointB)
 // returns result of multiplication point and scalar value
 Point.scale(pointA, value)
 // returns result of scalar multiplication points as vectors
 Point.mult(pointA, pointB)
 // returns new point as result of rotation around center
 Point.rotate(point, center, angle)
+// returns a progress point from pointA to pointB
+Point.getProgress(pointA, pointB, progress)
 // returns a middle point between defined two points
 Point.getMiddle(pointA, pointB)
 // returns order number of point in the fields with defined width
