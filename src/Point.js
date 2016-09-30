@@ -17,6 +17,12 @@ export default class Point {
     static getDistance(pointA, pointB, distance = euclideanDistance) {
         return distance(pointA.x, pointA.y, pointB.x, pointB.y);
     }
+    static getNormalized(point) {
+        return new Point(
+            point.x/point.module,
+            point.y/point.module
+        );
+    }
     static areEqual(pointA, pointB) {
         return Math.abs(pointA.x - pointB.x) <= Number.EPSILON && Math.abs(pointA.y - pointB.y) <= Number.EPSILON;
     }

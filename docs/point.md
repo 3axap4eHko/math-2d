@@ -28,6 +28,8 @@ Point.getDX(pointA, pointB)
 Point.getDY(pointA, pointB)
 // returns distance between two points
 Point.getDistance(pointA, pointB)
+// returns normalized point with module 1
+Point.getNormalized(point)
 // return true if two points are equal
 Point.areEqual(pointA, pointB)
 // return true if target point inside rectangle of two points

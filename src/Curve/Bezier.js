@@ -1,6 +1,6 @@
 'use strict';
 
-import Point from './Point';
+import Point from '../Point';
 
 const _Points = Symbol('points');
 
